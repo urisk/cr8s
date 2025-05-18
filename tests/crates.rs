@@ -18,8 +18,6 @@ fn test_create_crate(){
         .send()
         .unwrap();
     assert_eq!(response.status(), StatusCode::CREATED);
-
-
     let a_crate: Value = response.json().unwrap();
     assert_eq!(a_crate, json!({
         "id": a_crate["id"],
