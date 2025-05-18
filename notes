@@ -1,0 +1,15 @@
+#set up diesel:
+docker-compose exec app diesel setup
+#Create migration files
+docker-compose exec app diesel migration generate create_rustaceans
+docker-compose exec app diesel migration generate create_crates
+docker-compose exec app diesel migration generate create_crates
+#Back out Migration --revert twice
+docker-compose exec app diesel migration revert
+docker-compose exec app diesel migration revert
+
+#After adding migration scripts
+docker-compose exec app diesel migration run
+
+#results in json
+docker-compose exec app curl 127.0.0.1:8000/ -H 'Accept: application/json'
