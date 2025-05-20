@@ -17,6 +17,14 @@ fn test_create_crate(){
         }))
         .send()
         .unwrap();
+
+    // Report the response status and body in case of failure
+    if response.status() != StatusCode::CREATED {
+        let status = response.status();
+        let body = response.text().unwrap_or_else(|_| "Unable to read response body".to_string());
+        panic!("Expected status 201 but got {}. Response body: {}", status, body);
+    }
+
     assert_eq!(response.status(), StatusCode::CREATED);
     let a_crate: Value = response.json().unwrap();
     assert_eq!(a_crate, json!({

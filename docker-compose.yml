@@ -14,7 +14,22 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres/app_db
       - ROCKET_DATABASES={postgres={url=postgres://postgres:postgres@postgres/app_db}}
+      - ROCKET_ADDRESS=0.0.0.0
     ports:
       - 8000:8000
     volumes:
       - ./:/app/
+    command: ["cargo", "run"]
+
+  test:
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres/app_db
+      - ROCKET_DATABASES={postgres={url=postgres://postgres:postgres@postgres/app_db}}
+    volumes:
+      - ./:/app/
+    depends_on:
+      - app
+      - postgres
+    # This service runs tests by default
+    command: [ "bash", "-c", "sleep 5 && cargo test -- --nocapture" ]

@@ -2,7 +2,7 @@ use reqwest::blocking::Client;
 use reqwest::StatusCode;
 use serde_json::{json,Value};
 
-pub static APP_HOST: &'static str = "http://localhost:8000";
+pub static APP_HOST: &'static str = "http://app:8000";
 pub fn create_test_rustacean(client: &Client) -> Value{
     let response = client.post(format!("{}/rustaceans", APP_HOST))
         .json(&json!({
