@@ -33,12 +33,12 @@ pub struct Crate{
     created_at: NaiveDateTime,
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, Debug)]
 #[diesel(table_name=crates)]
 pub struct NewCrate{
     pub rustacean_id: i32,
     pub code: String,
     pub name: String,
     pub version: String,
-    pub description: Option<String>
+    pub description: Option<String>,
 }
