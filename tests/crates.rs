@@ -1,5 +1,6 @@
 use serde_json::{json, Value};
 use reqwest::{blocking::Client, StatusCode};
+use common::delete_test_rustacean;
 
 pub mod common;
 
@@ -9,7 +10,7 @@ fn test_create_crate() {
 
     // Create a rustacean first
     println!("Creating test rustacean...");
-    let rustacean = common::create_test_rustacean(&client);
+    let rustacean = common::create_test_rustacean(&client).clone();
     println!("Rustacean created: {:?}", rustacean);
 
     // Prepare crate data
@@ -44,10 +45,6 @@ fn test_create_crate() {
 
     // Clean up - note we need to recreate the client since we consumed the response
     let client = Client::new();
-    common::delete_test_rustacean(&client, rustacean);
-
-    // No need to delete the crate if it wasn't created successfully
-    //if response.status() == StatusCode::CREATED {
-        common::delete_test_crate(&client, a_crate);
-    //}
+    delete_test_rustacean(&client, rustacean);
 }
+
