@@ -30,13 +30,14 @@ fn test_create_crate() {
         .unwrap();
 
     // Display detailed response information
-    println!("Response status: {}", response.status());
+    let status = response.status();
+    println!("Response status: {}", status);
 
     let response_text = response.text().unwrap();
     println!("Response body: {}", response_text);
 
     // The test will fail at this point if the status is not 201
-    assert_eq!(response.status(), StatusCode::CREATED);
+    assert_eq!(status, StatusCode::CREATED);
 
     // Parse the response
     let a_crate: Value = serde_json::from_str(&response_text).unwrap();
