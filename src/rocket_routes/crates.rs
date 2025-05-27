@@ -44,6 +44,7 @@ pub async fn update_crate(mut db: Connection<DbConn>, id: i32, a_crate: Json<Cra
     CrateRepository::update(&mut db, id, a_crate.into_inner()).await
         .map(|a_crate| json!(a_crate))
         .map_err(|err| {
+            rocket::error!("Database error: {}", err);
             let error_message = format!("Database error: {}", err);
             Custom(Status::InternalServerError, json!({ "error": error_message }))
         })
@@ -54,7 +55,7 @@ pub async fn delete_crate(mut db: Connection<DbConn>,id: i32) -> Result<NoConten
     CrateRepository::delete(&mut db, id).await
         .map(|_| NoContent)
         .map_err(|err| {
-            let error_message = format!("Database error: {}", err);
-            Custom(Status::InternalServerError, json!({ "error": error_message }))
+            rocket::error!("Database error: {}", err);
+            Custom(Status::InternalServerError, json!( "Error"))
         })
 }
